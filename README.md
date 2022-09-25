@@ -60,4 +60,4 @@ And you should see transactions happen in your terminal that is running `npx har
 - :x: Test NFT smart contract
 - :heavy_check_mark: Create iExec oracle to generate random number ([iExec Oracle](https://oracle-factory.iex.ec/gallery/63302bf4033f264f17214bb4))
 - :x: Link iExec oracle to smart contract ([ref](https://github.com/iExecBlockchainComputing/flight-pronostics-contracts))
-- [ ] Create a ReactJS UI
+- :x: Create a ReactJS UI
