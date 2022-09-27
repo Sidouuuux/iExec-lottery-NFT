@@ -1,94 +1,45 @@
-// SPDX-License-Identifier: MIT
+//SPDX-License-Identifier: MIT 
 
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.7;
+
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./interfaces/INFTCollection.sol";
 
 contract Lottery is Ownable {
-    //Variables
-    address payable[] public players;
-    uint256 public lotteryId;
-    mapping(uint256 => address payable) public lotteryHistory;
-    bool public isActive;
+    //manager is in charge of the contract 
+    address public manager;
+    //new player in the contract using array[] to unlimit number 
+    address[] public players;
 
-    //Events
-    event LotteryEnter(address indexed player);
-    event WinnerPicked(address indexed player);
+    INFTCollection nft;
 
-    constructor() {
-        lotteryId = 1;
+    constructor(address _nftAddress){
+        nft = INFTCollection(_nftAddress);
+        manager = msg.sender;
     }
 
-    /*
-     * Function setIsActive to activate/desactivate the smart contract
-     */
-    function setIsActive(bool _isActive) external onlyOwner {
-        isActive = _isActive;
+    function setManager(address _manager) public onlyOwner{
+        manager = _manager;
     }
 
-    /*
-     * Function getWinnerByLottery to get winner of passed lottery
-     */
-    function getWinnerByLottery(uint256 lottery)
-        public
-        view
-        returns (address payable)
-    {
-        return lotteryHistory[lottery];
-    }
-
-    /*
-     * Function getBalance to get the balance of the smart contract
-     */
-    function getBalance() public view returns (uint256) {
-        return address(this).balance;
-    }
-
-    /*
-     * Function getPlayers to get players of the current lottery
-     */
-    function getPlayers() public view returns (address payable[] memory) {
-        return players;
-    }
-
-    /*
-     * Function getLotteryId to get current lottery id
-     */
-    function getLotteryId() public view returns (uint256) {
-        return lotteryId;
-    }
-
-    /*
-     * Function enterLottery to participate to a lottery
-     */
-    function enterLottery() public payable {
+    function enter() public payable{
         require(msg.value >= .01 ether);
-
-        // address of player entering lottery
-        players.push(payable(msg.sender));
-        emit LotteryEnter(msg.sender);
+        players.push(msg.sender);
     }
 
-    /*
-     * Function getRandomNumber to get a random number
-     */
-    function getRandomNumber() public view returns (uint256) {
-        return
-            uint256(keccak256(abi.encodePacked(msg.sender, block.timestamp)));
+    function random() private view returns(uint){
+        return  uint (keccak256(abi.encode(block.timestamp,  players)));
     }
 
-    /*
-     * Function pickWinner to get a winner for the current lottery
-     */
-    function pickWinner() public onlyOwner {
-        uint256 index = getRandomNumber() % players.length;
-        address payable recentWinner = players[index];
+    function pickWinner() public restricted{
+        uint index = random() % players.length;
 
-        recentWinner.transfer(address(this).balance);
-        lotteryHistory[lotteryId] = recentWinner;
-        lotteryId++;
+        payable (players[index]).transfer(address(this).balance);
+        players = new address[](0);
+    }
 
-        // reset the state of the contract
-        players = new address payable[](0);
-        emit WinnerPicked(recentWinner);
+    modifier restricted(){
+        require(msg.sender == manager);
+        _;
     }
 }
