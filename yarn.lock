@@ -365,6 +365,64 @@
     "@ethersproject/properties" "^5.7.0"
     "@ethersproject/strings" "^5.7.0"
 
+"@iexec/erlc@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@iexec/erlc/-/erlc-1.0.0.tgz#39176ae2d37b21be3523c45abff9aa028f04661c"
+  integrity sha512-DkgdBbTnHuqryWNX+Epi3xcTOwQOuX+gMwVEiLZqHc0rgjIxtzvvmYJ9U8PXaJJNjIr07MHt7BMclEz9qQTIXg==
+  dependencies:
+    "@openzeppelin/contracts" "^3.3.0"
+
+"@iexec/interface@3.0.35-8":
+  version "3.0.35-8"
+  resolved "https://registry.yarnpkg.com/@iexec/interface/-/interface-3.0.35-8.tgz#c13c95814a6c62fb63c991a1c417e02b44f26ce3"
+  integrity sha512-JkO9bpfpTBCOtJz/TEPzFTLlgamv7fll8RUpwC+8P6UWlGGwCe/IvgAeUZzIJ/syXaAhC0KZ7/03BEiee3f8fg==
+
+"@iexec/interface@^5.2.1":
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/@iexec/interface/-/interface-5.2.1.tgz#0543f6a044e5fdfb8da685857d4a4f2fdb94f3df"
+  integrity sha512-gOsWgo0Y/cuUFFDmESR5q/ybfgaMpsLkZPjXRKL/MX2ZVsIsCCdjHtw9YtLtHJi/BJVa/Q31JBIk8+sAVvwKxQ==
+  dependencies:
+    "@iexec/poco" "5.2.1"
+
+"@iexec/poco@5.2.1":
+  version "5.2.1"
+  resolved "https://registry.yarnpkg.com/@iexec/poco/-/poco-5.2.1.tgz#d29d270d1e2caadd99953e2b089bf86bb11531cb"
+  integrity sha512-UqeQSwU1dDu+uYgdnym/jAYZQWtdDN9O3teHupWeU3mt+VgaU4/sFdMeHBTLrLia2eyYaQSnko8lBMFNPPEz+A==
+  dependencies:
+    "@iexec/interface" "3.0.35-8"
+    "@iexec/solidity" "0.1.0-legacy"
+    "@openzeppelin/contracts" "3.1.0"
+    "@uniswap/v2-periphery" "1.1.0-beta.0"
+    rlc-faucet-contract "1.0.9"
+
+"@iexec/poco@^5.3.0":
+  version "5.3.0"
+  resolved "https://registry.yarnpkg.com/@iexec/poco/-/poco-5.3.0.tgz#58912284c5ab15b9071a9a57fc2899e834a2f22d"
+  integrity sha512-CO2b6Gv0w9dSgUeIHMzkViCG6UYn8MclZzdNI3hiOqgWFvr+YTTwLW/JSPEWu6Xr1wHUTXG9wFcmNgh2oO2sMA==
+  dependencies:
+    "@iexec/erlc" "1.0.0"
+    "@iexec/interface" "3.0.35-8"
+    "@iexec/solidity" "0.1.0-legacy"
+    "@openzeppelin/contracts" "3.3.0"
+    "@uniswap/v2-periphery" "1.1.0-beta.0"
+    rlc-faucet-contract "1.0.9"
+
+"@iexec/solidity@0.1.0-legacy":
+  version "0.1.0-legacy"
+  resolved "https://registry.yarnpkg.com/@iexec/solidity/-/solidity-0.1.0-legacy.tgz#12aeebdbca620b162b715f98f1209965bf195c29"
+  integrity sha512-q5jsNoyouZ1hFWRFQIfDexDPdcf5fH4Hbfb83aKWYb/WNisyFWZJF1F6gDMLVCXFbzjZRkHhPf2Wkzomwjc6Sw==
+  dependencies:
+    "@openzeppelin/contracts" "3.0.0-rc.0"
+    solstruct "0.0.13"
+
+"@iexec/solidity@^0.1.0":
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/@iexec/solidity/-/solidity-0.1.0.tgz#4df4c18e59e31269e2b210d4a416c97e1fbe729d"
+  integrity sha512-D8zIxT+2XHDd2Rr7N/cTpqyRyad7bmzY/N+5oKRcHd4b8r6S9YCJu+g6Ig9ba4WFKK7TTTeZYbv/eciGYMS9JA==
+  dependencies:
+    "@openzeppelin/contracts" "3.0.0-rc.0"
+    solstruct "0.0.13"
+
 "@metamask/eth-sig-util@^4.0.0":
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@metamask/eth-sig-util/-/eth-sig-util-4.0.1.tgz#3ad61f6ea9ad73ba5b19db780d40d9aae5157088"
@@ -649,6 +707,26 @@
     semver "^6.3.0"
     table "^6.8.0"
     undici "^5.4.0"
+
+"@openzeppelin/contracts@3.0.0-rc.0":
+  version "3.0.0-rc.0"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.0.0-rc.0.tgz#6cc5128f509b6310668547899a4115f8512c32ff"
+  integrity sha512-Ts7h4/5tNiRN2iiH10Mp+6CgmK/PETDHYIJ/tpUrXgGjWR51T/Dr8kxa41GeHHhmAsuo+CkcuG9L4di6qth/Mw==
+
+"@openzeppelin/contracts@3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.1.0.tgz#bcea457ef89069fbe5a617f50b25b6a8272895d5"
+  integrity sha512-dVXDnUKxrAKLzPdCRkz+N8qsVkK1XxJ6kk3zuI6zaQmcKxN7CkizoDP7lXxcs/Mi2I0mxceTRjJBqlzFffLJrQ==
+
+"@openzeppelin/contracts@3.3.0":
+  version "3.3.0"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.3.0.tgz#ffdb693c5c349fc33bba420248dd3ac0a2d7c408"
+  integrity sha512-AemZEsQYtUp1WRkcmZm1div5ORfTpLquLaziCIrSagjxyKdmObxuaY1yjQ5SHFMctR8rLwp706NXTbiIRJg7pw==
+
+"@openzeppelin/contracts@^3.3.0":
+  version "3.4.2"
+  resolved "https://registry.yarnpkg.com/@openzeppelin/contracts/-/contracts-3.4.2.tgz#d81f786fda2871d1eb8a8c5a73e455753ba53527"
+  integrity sha512-z0zMCjyhhp4y7XKAcDAi3Vgms4T2PstwBdahiO0+9NaGICQKjynK3wduSRplTgk4LXmoO1yfDGO5RbjKYxtuxA==
 
 "@openzeppelin/contracts@^4.7.3":
   version "4.7.3"
@@ -956,6 +1034,24 @@
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/@ungap/promise-all-settled/-/promise-all-settled-1.1.2.tgz#aa58042711d6e3275dd37dc597e5d31e8c290a44"
   integrity sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==
+
+"@uniswap/lib@1.1.1":
+  version "1.1.1"
+  resolved "https://registry.yarnpkg.com/@uniswap/lib/-/lib-1.1.1.tgz#0afd29601846c16e5d082866cbb24a9e0758e6bc"
+  integrity sha512-2yK7sLpKIT91TiS5sewHtOa7YuM8IuBXVl4GZv2jZFys4D2sY7K5vZh6MqD25TPA95Od+0YzCVq6cTF2IKrOmg==
+
+"@uniswap/v2-core@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@uniswap/v2-core/-/v2-core-1.0.0.tgz#e0fab91a7d53e8cafb5326ae4ca18351116b0844"
+  integrity sha512-BJiXrBGnN8mti7saW49MXwxDBRFiWemGetE58q8zgfnPPzQKq55ADltEILqOt6VFZ22kVeVKbF8gVd8aY3l7pA==
+
+"@uniswap/v2-periphery@1.1.0-beta.0":
+  version "1.1.0-beta.0"
+  resolved "https://registry.yarnpkg.com/@uniswap/v2-periphery/-/v2-periphery-1.1.0-beta.0.tgz#20a4ccfca22f1a45402303aedb5717b6918ebe6d"
+  integrity sha512-6dkwAMKza8nzqYiXEr2D86dgW3TTavUvCR0w2Tu33bAbM8Ah43LKAzH7oKKPRT5VJQaMi1jtkGs1E8JPor1n5g==
+  dependencies:
+    "@uniswap/lib" "1.1.1"
+    "@uniswap/v2-core" "1.0.0"
 
 abbrev@1:
   version "1.1.1"
@@ -4802,6 +4898,11 @@ ripemd160@^2.0.0, ripemd160@^2.0.1:
     hash-base "^3.0.0"
     inherits "^2.0.1"
 
+rlc-faucet-contract@1.0.9:
+  version "1.0.9"
+  resolved "https://registry.yarnpkg.com/rlc-faucet-contract/-/rlc-faucet-contract-1.0.9.tgz#cecef096ea4ad1fed6dd119f94948e74c74b2d53"
+  integrity sha512-eLsDeiXLCqHqYSaIqSJzHxsRjh0qZt7QxG4/n7VGqReQJr+v7ycC3omAmjnwgtSTQvCcRdY03pWmjb0co3Qtgg==
+
 rlp@^2.2.3, rlp@^2.2.4:
   version "2.2.7"
   resolved "https://registry.yarnpkg.com/rlp/-/rlp-2.2.7.tgz#33f31c4afac81124ac4b283e2bd4d9720b30beaf"
@@ -5071,6 +5172,11 @@ solidity-coverage@^0.7.21:
     semver "^7.3.4"
     shelljs "^0.8.3"
     web3-utils "^1.3.0"
+
+solstruct@0.0.13:
+  version "0.0.13"
+  resolved "https://registry.yarnpkg.com/solstruct/-/solstruct-0.0.13.tgz#6cae3371e97498dd7544595f2d99ccf76570a632"
+  integrity sha512-gYlF8yj4rB9V0xC5pz+jT8YsewLQkCsf9FDgswg/zyUliKj48Ty/T2XSEYpUFXPa0kVNKcCTd04tJivjcWeRIw==
 
 source-map-support@^0.5.13:
   version "0.5.21"

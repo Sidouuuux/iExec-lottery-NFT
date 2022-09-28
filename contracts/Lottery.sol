@@ -1,6 +1,6 @@
 //SPDX-License-Identifier: MIT 
 
-pragma solidity ^0.8.7;
+pragma solidity >=0.7.0 <0.9.0;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/INFTCollection.sol";
@@ -9,7 +9,7 @@ contract Lottery is Ownable {
     //manager is in charge of the contract 
     address public manager;
     //new player in the contract using array[] to unlimit number 
-    address[] public players;
+    address payable[] public players;
 
     INFTCollection nft;
 
@@ -23,8 +23,8 @@ contract Lottery is Ownable {
     }
 
     function enter() public payable{
-        require(msg.value >= .01 ether);
-        players.push(msg.sender);
+        require(msg.value >= .001 ether);
+        players.push(payable(msg.sender));
     }
 
     function random() private view returns(uint){
@@ -33,9 +33,10 @@ contract Lottery is Ownable {
 
     function pickWinner() public restricted{
         uint index = random() % players.length;
+        nft.mint(players[index]);
 
         payable (players[index]).transfer(address(this).balance);
-        players = new address[](0);
+        players = new address payable[](0);
     }
 
     modifier restricted(){

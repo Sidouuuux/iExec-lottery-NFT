@@ -18,28 +18,32 @@
 
 pragma solidity ^0.6.12;
 
-abstract contract Oracle {
-    function getRaw(bytes32)
-        public
-        view
-        virtual
-        returns (bytes memory, uint256);
+import "./Oracle.sol";
 
-    function getString(bytes32)
-        public
-        view
-        virtual
-        returns (string memory, uint256);
+contract FlightBetting {
+    string public status;
+    uint256 public updatedate;
 
-    function getInt(bytes32) 
-        public 
-        view 
-        virtual 
-        returns (int256, uint256);
 
-    function getBool(bytes32) 
-        public 
-        view 
-        virtual 
-        returns (bool, uint256);
+    // The address of the player and => the user info
+
+    constructor() public {
+    }
+
+    function getOracleData() public returns (string memory) {
+        
+        bytes32 oracleId = 0x7d55ae0be7ec7d8189645f834522d9d8147865a2ef022deb006e9757567e2272;
+        address oracleAddress = 0x8ecEDdd1377E52d23A46E2bd3dF0aFE35B526D5F;
+        Oracle oracleContract = Oracle(oracleAddress);
+        (string memory value, uint256 date) = oracleContract.getString(
+            oracleId
+        );
+        status = value;
+        updatedate = date;
+        return value;
+    }
+
+    function getStatus() public view returns (string memory) {
+        return status;
+    }
 }

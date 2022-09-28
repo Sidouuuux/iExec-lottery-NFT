@@ -1,102 +1,95 @@
 // SPDX-License-Identifier: MIT
 
-pragma solidity 0.8.7;
+pragma solidity >=0.7.0 <0.9.0;
 
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@openzeppelin/contracts/utils/Strings.sol";
 
-contract NFT1Collection is ERC721Enumerable, Ownable {
+contract NFT1Collection is ERC721, Ownable {
     using Strings for uint256;
+    using Counters for Counters.Counter;
 
-    //--------------------------------------------------------------------
-    // VARIABLES
+    Counters.Counter private supply;
 
-    string public baseURI;
-    address public controller;
-    uint256 public immutable maxSupply;
+    string public uriPrefix = "";
+    string public uriSuffix = ".json";
 
-    // USE uint256 instead of bool to save gas
-    // paused = 1 & active = 2
-    uint256 public paused = 1;
+    uint256 public cost = 0.001 ether;
+    uint256 public maxSupply = 10;
 
-    //--------------------------------------------------------------------
-    // ERRORS
+    bool public paused = true;
+    address public minter;
 
-    error NFTCollection__ContractIsPaused();
-    error NFTCollection__OnlyController();
-    error NFTCollection__NftSupplyLimitExceeded();
-    error NFTCollection__InvalidMintAmount();
-    error NFTCollection__QueryForNonExistentToken();
-
-    //--------------------------------------------------------------------
-    // CONSTRUCTOR
-
-    constructor(uint256 _maxSupply) ERC721("Lottery Collectible", "LC") {
-        maxSupply = _maxSupply;
+    constructor(
+        string memory _name,
+        string memory _symbol,
+        string memory _uriPrefix
+    ) ERC721(_name, _symbol) {
+        setUriPrefix(_uriPrefix);
+        minter = msg.sender;
     }
 
-    //--------------------------------------------------------------------
-    // MINT FUNCTIONS
-
-    function mint(address account, uint256 amount) external payable {
-        if (msg.sender != controller) revert NFTCollection__OnlyController();
-        if (paused == 1) revert NFTCollection__ContractIsPaused();
-        if (amount == 0) revert NFTCollection__InvalidMintAmount();
-        uint256 supply = totalSupply();
-        if (supply + amount > maxSupply)
-            revert NFTCollection__NftSupplyLimitExceeded();
-
-        for (uint256 i = 1; i <= amount; ) {
-            _safeMint(account, supply + i);
-            unchecked {
-                ++i;
-            }
-        }
+    modifier mintCompliance() {
+        require(supply.current() + 1 <= maxSupply, "Max supply exceeded!");
+        _;
     }
 
-    //--------------------------------------------------------------------
-    // OWNER FUNCTIONS
-
-    function setBaseURI(string memory _newBaseURI) external payable onlyOwner {
-        baseURI = _newBaseURI;
+    function totalSupply() public view returns (uint256) {
+        return supply.current();
     }
 
-    function pause(uint256 _state) external payable onlyOwner {
-        if (_state == 1 || _state == 2) paused = _state;
-    }
+    function mint(address winner)
+        public
+        payable
+        onlyOwner
+        mintCompliance()
+    {
+        require(!paused, "The contract is paused!");
+        require(msg.value >= cost, "Insufficient funds!");
 
-    function setController(address _controller) external payable onlyOwner {
-        controller = _controller;
+        supply.increment();
+        _safeMint(winner, supply.current());
     }
-
-    //--------------------------------------------------------------------
-    // VIEW FUNCTIONS
 
     function walletOfOwner(address _owner)
-        external
+        public
         view
         returns (uint256[] memory)
     {
         uint256 ownerTokenCount = balanceOf(_owner);
-        uint256[] memory tokenIds = new uint256[](ownerTokenCount);
-        for (uint256 i; i < ownerTokenCount; ) {
-            tokenIds[i] = tokenOfOwnerByIndex(_owner, i);
-            unchecked {
-                ++i;
+        uint256[] memory ownedTokenIds = new uint256[](ownerTokenCount);
+        uint256 currentTokenId = 1;
+        uint256 ownedTokenIndex = 0;
+
+        while (
+            ownedTokenIndex < ownerTokenCount && currentTokenId <= maxSupply
+        ) {
+            address currentTokenOwner = ownerOf(currentTokenId);
+
+            if (currentTokenOwner == _owner) {
+                ownedTokenIds[ownedTokenIndex] = currentTokenId;
+
+                ownedTokenIndex++;
             }
+
+            currentTokenId++;
         }
-        return tokenIds;
+
+        return ownedTokenIds;
     }
 
-    function tokenURI(uint256 tokenId)
+    function tokenURI(uint256 _tokenId)
         public
         view
         virtual
         override
         returns (string memory)
     {
-        if (!_exists(tokenId)) revert NFTCollection__QueryForNonExistentToken();
+        require(
+            _exists(_tokenId),
+            "ERC721Metadata: URI query for nonexistent token"
+        );
 
         string memory currentBaseURI = _baseURI();
         return
@@ -104,14 +97,39 @@ contract NFT1Collection is ERC721Enumerable, Ownable {
                 ? string(
                     abi.encodePacked(
                         currentBaseURI,
-                        tokenId.toString(),
-                        ".json"
+                        _tokenId.toString(),
+                        uriSuffix
                     )
                 )
                 : "";
     }
 
+    function setCost(uint256 _cost) public onlyOwner {
+        cost = _cost;
+    }
+
+    function setMinter(address _minter) public onlyOwner {
+        minter = _minter;
+    }
+
+    function setUriPrefix(string memory _uriPrefix) public onlyOwner {
+        uriPrefix = _uriPrefix;
+    }
+
+    function setUriSuffix(string memory _uriSuffix) public onlyOwner {
+        uriSuffix = _uriSuffix;
+    }
+
+    function setPaused(bool _state) public onlyOwner {
+        paused = _state;
+    }
+
+    function withdraw() public onlyOwner {
+        (bool os, ) = payable(owner()).call{value: address(this).balance}("");
+        require(os);
+    }
+
     function _baseURI() internal view virtual override returns (string memory) {
-        return baseURI;
+        return uriPrefix;
     }
 }

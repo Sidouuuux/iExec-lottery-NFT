@@ -15,6 +15,7 @@ const ETHERSCAN_API_KEY = process.env.ETHERSCAN_API_KEY || ""
 const COINMARKETCAP_API_KEY = process.env.COINMARKETCAP_API_KEY || ""
 
 module.exports = {
+  // solidity: "0.6.0",
   solidity: "0.8.7",
   defaultNetwork:"hardhat",
   networks: {
@@ -23,6 +24,11 @@ module.exports = {
       url: RINKEBY_RPC_URL,
       accounts: [PRIVATE_KEY],
       chainId: 4,
+    },
+    bellecour: {
+      url: "https://bellecour.iex.ec",
+      accounts: [PRIVATE_KEY],
+      chainId: 134,
     },
     goerli: {
       url: GOERLI_RPC_URL,
